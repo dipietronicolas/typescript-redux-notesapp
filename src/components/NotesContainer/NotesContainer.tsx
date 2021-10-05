@@ -11,11 +11,10 @@ const NotesContainer = () => {
   const notes = useSelector<NotesState, NotesState["notes"]>(state => state.notes);
 
   return (
-    <Flex flexDirection="column" mt={12} w="50rem" mx="auto" >
+    <Flex flexDirection="column" w="50rem" mx="auto" >
       {
         notes.map(note => {
           return <Note key={note.id} { ...note } />
-          
         })
       }
     </Flex>

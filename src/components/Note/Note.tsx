@@ -4,6 +4,8 @@ import { DeleteIcon, EditIcon, CheckIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { Note as NoteProps } from '../../reducers/notesReducer';
 import Swal from 'sweetalert2';
+// Framer Motion
+import { motion } from "framer-motion"
 
 const Note: React.FC<NoteProps> = ({ note, id }) => {
 
@@ -66,34 +68,39 @@ const Note: React.FC<NoteProps> = ({ note, id }) => {
   }
 
   return (
-    <Flex
-      justifyContent="space-between"
-      alignItems="center"
-      borderWidth="3px"
-      borderRadius="lg"
-      p={6} my={3} as="form" onSubmit={handleFormSubmit} >
-      <Input
-        name="noteInput"
-        value={inputValue}
-        ref={inputRef}
-        onChange={handleInputChange}
-        w="80%"
-        readOnly={isInputLock} />
-      <IconButton
-        w="3rem"
-        aria-label="Delete note"
-        icon={isInputLock ? <EditIcon /> : <CheckIcon />}
-        colorScheme={isInputLock ? "yellow" : "green"}
-        variant={isInputLock ? "outline" : "solid"}
-        onClick={handleEditButton}
-        type="submit" />
-      <IconButton
-        w="3rem"
-        aria-label="Delete note"
-        icon={<DeleteIcon />}
-        colorScheme="red"
-        onClick={handleDeleteButton} />
-    </Flex>
+    <motion.div
+      style={{ opacity: 0.5 }}
+      animate={{ y: 50, opacity: 1 }} >
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        borderWidth="3px"
+        borderRadius="lg"
+        p={6} my={3} as="form" onSubmit={handleFormSubmit} >
+
+        <Input
+          name="noteInput"
+          value={inputValue}
+          ref={inputRef}
+          onChange={handleInputChange}
+          w="80%"
+          readOnly={isInputLock} />
+        <IconButton
+          w="3rem"
+          aria-label="Delete note"
+          icon={isInputLock ? <EditIcon /> : <CheckIcon />}
+          colorScheme={isInputLock ? "yellow" : "green"}
+          variant={isInputLock ? "outline" : "solid"}
+          onClick={handleEditButton}
+          type="submit" />
+        <IconButton
+          w="3rem"
+          aria-label="Delete note"
+          icon={<DeleteIcon />}
+          colorScheme="red"
+          onClick={handleDeleteButton} />
+      </Flex>
+    </motion.div>
   )
 }
 
