@@ -1,25 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Box, Heading, Flex } from '@chakra-ui/react';
+import Input from './components/Input/Input';
+import { useDispatch } from 'react-redux';
+import NotesContainer from './components/NotesContainer/NotesContainer';
 
 function App() {
+
+  // Redux
+  const dispatch = useDispatch();
+
+  // Input handler
+  const getInputData = (value: string) => {
+    dispatch({ type: 'ADD_NOTE', payload: [value, null] })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box minH="100vh" w="100%">
+      <Flex p={12} justifyContent="center" alignItems="center">
+        <Heading as="h2" size="2xl">
+          notesApp
+        </Heading>
+      </Flex>
+      <Input getInputData={getInputData} />
+      <NotesContainer />
+    </Box>
   );
 }
 
