@@ -3,6 +3,7 @@ import { Flex, IconButton, Input } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon, CheckIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { Note as NoteProps } from '../../reducers/notesReducer';
+import Swal from 'sweetalert2';
 
 const Note: React.FC<NoteProps> = ({ note, id }) => {
 
@@ -22,7 +23,26 @@ const Note: React.FC<NoteProps> = ({ note, id }) => {
   }
 
   const handleDeleteButton = () => {
-    dispatch({ type: 'DELETE_NOTE', payload: [null, id] })
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#38A169',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch({ type: 'DELETE_NOTE', payload: [null, id] })
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Your note has been deleted.',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false
+        })
+      }
+    })
   }
 
   const handleEditButton = () => {
@@ -31,12 +51,17 @@ const Note: React.FC<NoteProps> = ({ note, id }) => {
 
   const handleFormSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if(inputRef.current){
+    if (inputRef.current) {
       !isInputLock && inputRef.current.focus();
     }
-    if(isInputLock){
-      console.log(inputValue);
-      dispatch({ type: 'UPDATE_NOTE', payload: [inputValue, id] })
+    if (isInputLock) {
+      dispatch({ type: 'UPDATE_NOTE', payload: [inputValue, id] });
+      Swal.fire({
+        title: 'Done!',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
     }
   }
 
